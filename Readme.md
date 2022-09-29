@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Зоя Педонова](https://up.htmlacademy.ru/javascript/27/user/171114).
-* Наставник: [Анастасия Васинская](https://htmlacademy.ru/profile/vanastasiya).
+*
 
 ---
 
