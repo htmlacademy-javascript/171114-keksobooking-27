@@ -141,3 +141,4 @@ function createAdvertisement (avatarNumber) {
 
 const similarAdvertisements = Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
 
+getRandomArrayElement(similarAdvertisements);
