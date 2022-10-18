@@ -1,3 +1,6 @@
-import {templateFragment} from './card.js';
+import {createAdvertisements} from './data.js';
+import {showAdvertisment} from './card.js';
 
-console.log(templateFragment);
+const mapCanvas = document.querySelector('#map-canvas');
+const similarAdvertisements = createAdvertisements();
+mapCanvas.appendChild(showAdvertisment(similarAdvertisements[0]));

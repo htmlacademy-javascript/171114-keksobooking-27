@@ -58,7 +58,7 @@ const createOffer = (type, lat, lng) => ({
   price: getRandomNumber(100, 5000),
   type: type,
   rooms: getRandomNumber(1, 10),
-  guests: getRandomNumber(1, 15),
+  guests: getRandomNumber(2, 15),
   checkin: getRandomArrayElement(CHECK_TIME),
   checkout: getRandomArrayElement(CHECK_TIME),
   features: getRandomArray(FEATURES_LIST),
