@@ -1,3 +1,3 @@
-import {createAdvertisements} from './data.js';
+import {templateFragment} from './card.js';
 
-createAdvertisements();
+console.log(templateFragment);
