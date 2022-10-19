@@ -32,6 +32,14 @@ const PHOTOS_LIST = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const houseTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+
 const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 const formatNumber = (input) => input < 10 ? `0${input}` : String(input);
@@ -53,12 +61,12 @@ const getPhotosArray = (count, array) => {
 };
 
 const createOffer = (type, lat, lng) => ({
-  title: `Beautiful ${type} for you!`,
+  title: `Сдается ${houseTypes[type]}`,
   address: `${lat}, ${lng}`,
   price: getRandomNumber(100, 5000),
   type: type,
   rooms: getRandomNumber(1, 10),
-  guests: getRandomNumber(1, 15),
+  guests: getRandomNumber(2, 15),
   checkin: getRandomArrayElement(CHECK_TIME),
   checkout: getRandomArrayElement(CHECK_TIME),
   features: getRandomArray(FEATURES_LIST),
@@ -85,3 +93,4 @@ function createAdvertisement (avatarNumber) {
 const createAdvertisements = () => Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
 
 export {createAdvertisements};
+export {houseTypes};
