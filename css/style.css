@@ -432,6 +432,12 @@ fieldset {
   display: none;
 }
 
+.ad-form__error {
+  display: block;
+  font-size: 0.85em;
+  color: #c00;
+}
+
 .features legend {
   padding-bottom: 5px;
 }
