@@ -1,25 +1,30 @@
 const adForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine(adForm, {
-  classTo: 'ad-form',
-  errorClass: 'error',
-  successClass: 'success',
-  errorTextParent: 'error',
-  errorTextClass: 'error__message',
+  classTo: 'ad-form__element',
+  errorClass: 'has-danger',
+  successClass: 'has-success',
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'div',
+  errorTextClass: 'ad-form__error'
 });
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-pristine.addValidator(
-  adForm.querySelector('#title'),
-  validateTitle,
-  'От 30 до 100 символов'
-);
+const roomNumber = adForm.querySelector('#room_number');
 
-const validatePrice = (value) => value <= 100000;
+const validateCapacity = (value) => {
+  if (roomNumber.value === '100') {
+    return value === '0';
+  }
+  if (value === '0') {
+    return roomNumber.value === '100';
+  }
+  return value <= roomNumber.value;
+};
+
 pristine.addValidator(
-  adForm.querySelector('#price'),
-  validatePrice ,
-  'Максимальная цена 100 000'
+  adForm.querySelector('#capacity'),
+  validateCapacity,
+  'Количество мест меньше или равно количеству комнат. 100 комнат — не для гостей (0 гостей)'
 );
 
 adForm.addEventListener('submit', (evt) => {
