@@ -38,8 +38,9 @@ const validateCapacity = (value) => {
 
 const validatePrice = () => {
   price.min = `${priceOfTypes[type.value]}`;
-  if (priceOfTypes[type.value] <= price.value)
+  if (priceOfTypes[type.value] <= price.value) {
     return true;
+  }
   return false;
 };
 
