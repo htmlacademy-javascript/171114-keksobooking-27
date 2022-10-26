@@ -1,5 +1,8 @@
 const adForm = document.querySelector('.ad-form');
 
+const MAX_ROOM_NUMBER = '100';
+const NOT_FOR_GUEST = '0';
+
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'has-danger',
@@ -12,11 +15,11 @@ const pristine = new Pristine(adForm, {
 const roomNumber = adForm.querySelector('#room_number');
 
 const validateCapacity = (value) => {
-  if (roomNumber.value === '100') {
-    return value === '0';
+  if (roomNumber.value === MAX_ROOM_NUMBER) {
+    return value === NOT_FOR_GUEST;
   }
-  if (value === '0') {
-    return roomNumber.value === '100';
+  if (value === NOT_FOR_GUEST) {
+    return roomNumber.value === MAX_ROOM_NUMBER;
   }
   return value <= roomNumber.value;
 };
