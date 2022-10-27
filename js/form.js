@@ -1,6 +1,9 @@
 const adForm = document.querySelector('.ad-form');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
+const roomNumber = adForm.querySelector('#room_number');
+const type = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
 
 const MAX_ROOM_NUMBER = '100';
 const NOT_FOR_GUEST = '0';
@@ -22,9 +25,6 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__error'
 });
 
-const roomNumber = adForm.querySelector('#room_number');
-const type = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
 
 const validateCapacity = (value) => {
   if (roomNumber.value === MAX_ROOM_NUMBER) {
@@ -36,13 +36,7 @@ const validateCapacity = (value) => {
   return value <= roomNumber.value;
 };
 
-const validatePrice = () => {
-  price.min = `${priceOfTypes[type.value]}`;
-  if (priceOfTypes[type.value] <= price.value) {
-    return true;
-  }
-  return false;
-};
+const validatePrice = () => priceOfTypes[type.value] <= price.value;
 
 pristine.addValidator(
   adForm.querySelector('#capacity'),
@@ -53,7 +47,7 @@ pristine.addValidator(
 pristine.addValidator(
   price,
   validatePrice,
-  `Минимальная цена - ${priceOfTypes[type.value]}`
+  'Цена меньше минимальной'
 );
 
 adForm.addEventListener('submit', (evt) => {
@@ -69,4 +63,16 @@ timein.addEventListener('change', (evt) => {
 timeout.addEventListener('change', (evt) => {
   evt.preventDefault();
   timein.value = timeout.value;
+});
+
+type.addEventListener('change', (evt) => {
+  evt.preventDefault();
+  price.min = `${priceOfTypes[type.value]}`;
+  price.placeholder = `${priceOfTypes[type.value]}`;
+});
+
+price.addEventListener('change', (evt) => {
+  evt.preventDefault();
+  price.min = `${priceOfTypes[type.value]}`;
+  price.placeholder = `${priceOfTypes[type.value]}`;
 });
