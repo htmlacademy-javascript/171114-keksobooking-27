@@ -1,6 +1,6 @@
 import {houseTypes} from './data.js';
 
-const showAdvertisment = (advertisement) => {
+const createCardElement = (advertisement) => {
   const templateFragment = document.querySelector('#card').content;
   const fragmentList = document.createDocumentFragment();
   const advertisementElement = templateFragment.cloneNode(true);
@@ -35,6 +35,4 @@ const showAdvertisment = (advertisement) => {
   return fragmentList;
 };
 
-export {showAdvertisment};
-
-
+export {createCardElement};

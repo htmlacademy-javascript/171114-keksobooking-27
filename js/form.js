@@ -2,11 +2,10 @@ const adForm = document.querySelector('.ad-form');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
 const roomNumber = adForm.querySelector('#room_number');
+const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
-
-const MAX_ROOM_NUMBER = '100';
-const NOT_FOR_GUEST = '0';
+const address = document.querySelector('#address');
 
 const priceOfTypes = {
   flat: 1000,
@@ -14,6 +13,48 @@ const priceOfTypes = {
   house: 5000,
   palace: 10000,
   hotel: 3000,
+};
+
+const roomsToGuests = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0'],
+};
+
+const guestsToRooms = {
+  0: ['100'],
+  1: ['1', '2', '3'],
+  2: ['2', '3'],
+  3: ['3'],
+};
+
+const pluralRuleSelector = new Intl.PluralRules('ru');
+
+const roomsUnitByRule = {
+  one: 'комната',
+  few: 'комнаты',
+  many: 'комнат',
+  other: 'комнат'
+};
+
+const formatRooms = (roomsCount) => {
+  const rule = pluralRuleSelector.select(roomsCount);
+
+  return `${roomsUnitByRule[rule]}`;
+};
+
+const guestsUnitByRule = {
+  one: 'гостя',
+  few: 'гостей',
+  many: 'гостей',
+  other: 'гостей'
+};
+
+const formatGuests = (guestsCount) => {
+  const rule = pluralRuleSelector.select(guestsCount);
+
+  return `${guestsUnitByRule[rule]}`;
 };
 
 const pristine = new Pristine(
@@ -27,22 +68,29 @@ const pristine = new Pristine(
 );
 
 
-const validateCapacity = (value) => {
-  if (roomNumber.value === MAX_ROOM_NUMBER) {
-    return value === NOT_FOR_GUEST;
-  }
-  if (value === NOT_FOR_GUEST) {
-    return roomNumber.value === MAX_ROOM_NUMBER;
-  }
-  return value <= roomNumber.value;
-};
+const validateCapacity = () => roomsToGuests[roomNumber.value].includes(capacity.value);
+const validateRoomNumber = () => guestsToRooms[capacity.value].includes(roomNumber.value);
+
+const getCapacityErorMessage = () => `Указанное количество комнат вмещает
+  ${roomsToGuests[roomNumber.value].join(' или ')}
+  ${formatGuests(roomNumber.value)}`;
+
+const getRoomNumberErorMessage = () => `Для указанного количества гостей требуется
+  ${guestsToRooms[capacity.value].join(' или ')}
+  ${formatRooms(capacity.value)}`;
 
 const validatePrice = () => priceOfTypes[type.value] <= price.value;
 
 pristine.addValidator(
-  adForm.querySelector('#capacity'),
+  capacity,
   validateCapacity,
-  'Количество мест меньше или равно количеству комнат. 100 комнат — не для гостей (0 гостей)'
+  getCapacityErorMessage
+);
+
+pristine.addValidator(
+  roomNumber,
+  validateRoomNumber,
+  getRoomNumberErorMessage
 );
 
 pristine.addValidator(
@@ -77,3 +125,12 @@ price.addEventListener('change', (evt) => {
   price.min = `${priceOfTypes[type.value]}`;
   price.placeholder = `${priceOfTypes[type.value]}`;
 });
+
+const setAddress = ({lat, lng}) => {
+  lat = Math.floor(lat * 10000) / 10000;
+  lng = Math.floor(lng * 10000) / 10000;
+  address.value = `${lat}, ${lng}`;
+  address.placeholder = `${lat}, ${lng}`;
+};
+
+export {setAddress};

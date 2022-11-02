@@ -92,5 +92,4 @@ function createAdvertisement (avatarNumber) {
 
 const createAdvertisements = () => Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
 
-export {createAdvertisements};
-export {houseTypes};
+export {createAdvertisements, houseTypes};

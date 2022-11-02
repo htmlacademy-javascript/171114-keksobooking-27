@@ -35,5 +35,4 @@ const getAdFormActive = () => {
   });
 };
 
-export {getAdFormDisabled};
-export {getAdFormActive};
+export {getAdFormDisabled, getAdFormActive};
