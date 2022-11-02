@@ -16,14 +16,15 @@ const priceOfTypes = {
   hotel: 3000,
 };
 
-const pristine = new Pristine(adForm, {
-  classTo: 'ad-form__element',
-  errorClass: 'has-danger',
-  successClass: 'has-success',
-  errorTextParent: 'ad-form__element',
-  errorTextTag: 'div',
-  errorTextClass: 'ad-form__error'
-});
+const pristine = new Pristine(
+  adForm,
+  {
+    classTo: 'ad-form__element',
+    errorClass: 'ad-form__element--invalid',
+    errorTextParent: 'ad-form__element',
+  },
+  true
+);
 
 
 const validateCapacity = (value) => {
