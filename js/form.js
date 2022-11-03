@@ -1,3 +1,5 @@
+import {updateSlider} from './slider.js';
+
 const adForm = document.querySelector('.ad-form');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
@@ -124,11 +126,12 @@ price.addEventListener('change', (evt) => {
   evt.preventDefault();
   price.min = `${priceOfTypes[type.value]}`;
   price.placeholder = `${priceOfTypes[type.value]}`;
+  updateSlider(price);
 });
 
 const setAddress = ({lat, lng}) => {
-  lat = Math.floor(lat * 10000) / 10000;
-  lng = Math.floor(lng * 10000) / 10000;
+  lat = lat.toFixed(5);
+  lng = lng.toFixed(5);
   address.value = `${lat}, ${lng}`;
   address.placeholder = `${lat}, ${lng}`;
 };

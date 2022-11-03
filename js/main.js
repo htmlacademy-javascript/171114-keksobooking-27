@@ -2,6 +2,7 @@ import {setAddress} from './form.js';
 import {getAdFormDisabled, getAdFormActive} from './ad-form.js';
 import {createAdvertisements} from './data.js';
 import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove} from './map.js';
+import {createSlider, setOnSliderUpdate} from './slider.js';
 
 const START_COORDINATE = {
   lat: 35.66023,
@@ -9,7 +10,6 @@ const START_COORDINATE = {
 };
 
 const similarAdv = createAdvertisements();
-
 
 setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
@@ -20,3 +20,5 @@ setOnMapLoad(() => {
 
 getAdFormDisabled();
 initMap(START_COORDINATE);
+createSlider();
+setOnSliderUpdate();

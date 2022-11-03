@@ -70,4 +70,4 @@ const setOnMainPinMove = (cb) => {
   mainMarker.on('move', (evt) => cb(evt.target.getLatLng()));
 };
 
-export {initMap,setAdPins, setOnMapLoad, setOnMainPinMove};
+export {initMap, setAdPins, setOnMapLoad, setOnMainPinMove};
