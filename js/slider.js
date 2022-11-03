@@ -10,7 +10,7 @@ const createSlider = () => {
       min: MIN,
       max: MAX,
     },
-    start: MAX * 0.4,
+    start: MIN,
     step: 0.01,
     connect: 'lower',
   });
@@ -24,17 +24,20 @@ const setOnSliderUpdate = () => {
 
 const updateSlider = (element) => {
   sliderElement.noUiSlider.set(element.value);
-  if(element.min === undefined) {
+  if(!element.min) {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: MIN,
+        max: MAX
       }
     });
   } else {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: parseInt(element.min, 10),
-      }
+        max: MAX
+      },
+      start: parseInt(element.min, 10),
     });
   }
 };

@@ -120,13 +120,13 @@ type.addEventListener('change', (evt) => {
   evt.preventDefault();
   price.min = `${priceOfTypes[type.value]}`;
   price.placeholder = `${priceOfTypes[type.value]}`;
+  updateSlider(price);
 });
 
 price.addEventListener('change', (evt) => {
   evt.preventDefault();
   price.min = `${priceOfTypes[type.value]}`;
   price.placeholder = `${priceOfTypes[type.value]}`;
-  updateSlider(price);
 });
 
 const setAddress = ({lat, lng}) => {

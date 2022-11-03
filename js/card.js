@@ -1,7 +1,7 @@
 import {houseTypes} from './data.js';
 
 const createCardElement = (advertisement) => {
-  const templateFragment = document.querySelector('#card').content;
+  const templateFragment = document.querySelector('#card').content.querySelector('.popup');
   const fragmentList = document.createDocumentFragment();
   const advertisementElement = templateFragment.cloneNode(true);
   const features = advertisement.offer.features;
@@ -31,8 +31,8 @@ const createCardElement = (advertisement) => {
     photos.appendChild(photosElement);
   });
   advertisementElement.querySelector('.popup__avatar').setAttribute('src',advertisement.author.avatar);
-  fragmentList.appendChild(advertisementElement);
-  return fragmentList;
+  advertisementElement.appendChild(fragmentList);
+  return advertisementElement;
 };
 
 export {createCardElement};
