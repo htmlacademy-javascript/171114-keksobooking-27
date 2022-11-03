@@ -70,7 +70,7 @@ const createOffer = (type, lat, lng) => ({
   checkin: getRandomArrayElement(CHECK_TIME),
   checkout: getRandomArrayElement(CHECK_TIME),
   features: getRandomArray(FEATURES_LIST),
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   photos: getPhotosArray(10, PHOTOS_LIST),
 });
 
@@ -92,5 +92,4 @@ function createAdvertisement (avatarNumber) {
 
 const createAdvertisements = () => Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
 
-export {createAdvertisements};
-export {houseTypes};
+export {createAdvertisements, houseTypes};
