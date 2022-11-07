@@ -1,6 +1,5 @@
 import {createCardElement} from './card.js';
 
-const ADVERTISEMENTS_COUNT = 10;
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -59,7 +58,7 @@ const creataAdPinMarkers = (advertisements) => {
 
 const setAdPins = (advertisements) => {
   markerGroup.clearLayers();
-  creataAdPinMarkers(advertisements.slice(0, ADVERTISEMENTS_COUNT));
+  creataAdPinMarkers(advertisements);
 };
 
 const setOnMapLoad = (cb) => {

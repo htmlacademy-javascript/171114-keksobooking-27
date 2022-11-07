@@ -1,24 +1,27 @@
-import {setAddress} from './form.js';
+import {setAddress, setAdFormSubmit} from './form.js';
 import {getAdFormDisabled, getAdFormActive} from './ad-form.js';
-import {createAdvertisements} from './data.js';
 import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove} from './map.js';
 import {createSlider, setOnSliderUpdate} from './slider.js';
+import {getData} from './api.js';
 
 const START_COORDINATE = {
   lat: 35.66023,
   lng: 139.73007,
 };
 
-const similarAdv = createAdvertisements();
+const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
   setAddress(START_COORDINATE);
   getAdFormActive();
-  setAdPins(similarAdv);
+  getData((advertisements) => {
+    setAdPins(advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
+  });
 });
 
 getAdFormDisabled();
 initMap(START_COORDINATE);
 createSlider();
 setOnSliderUpdate();
+setAdFormSubmit();

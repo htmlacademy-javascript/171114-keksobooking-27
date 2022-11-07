@@ -1,4 +1,7 @@
 import {updateSlider} from './slider.js';
+import {showAlert} from './util.js';
+import {sendData} from './api.js';
+import {resetForm} from './ad-form.js';
 
 const adForm = document.querySelector('.ad-form');
 const timein = adForm.querySelector('#timein');
@@ -7,7 +10,8 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
-const address = document.querySelector('#address');
+const address = adForm.querySelector('#address');
+const submitButton = adForm.querySelector('.ad-form__submit');
 
 const priceOfTypes = {
   flat: 1000,
@@ -101,10 +105,10 @@ pristine.addValidator(
   'Цена меньше минимальной'
 );
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+// adForm.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   pristine.validate();
+// });
 
 timein.addEventListener('change', (evt) => {
   evt.preventDefault();
@@ -136,4 +140,38 @@ const setAddress = ({lat, lng}) => {
   address.placeholder = `${lat}, ${lng}`;
 };
 
-export {setAddress};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const setAdFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+          resetForm();
+        },
+
+        () => {
+          showAlert();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setAddress, setAdFormSubmit};

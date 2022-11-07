@@ -40,7 +40,7 @@ const houseTypes = {
   hotel: 'Отель',
 };
 
-const SIMILAR_ADVERTISEMENT_COUNT = 10;
+
 
 const formatNumber = (input) => input < 10 ? `0${input}` : String(input);
 
@@ -79,17 +79,17 @@ const createLocation = () => ({
   lng: getRandomFloat(139.70000, 139.80000, 5),
 });
 
-function createAdvertisement (avatarNumber) {
-  const type = getRandomArrayElement(TYPES_LIST);
-  const locationAdress = createLocation();
-  const obj = {
-    author: createAuthor(avatarNumber),
-    offer: createOffer(type, locationAdress.lat, locationAdress.lng),
-    location: locationAdress,
-  };
-  return obj;
-}
+// function createAdvertisement (avatarNumber) {
+//   const type = getRandomArrayElement(TYPES_LIST);
+//   const locationAdress = createLocation();
+//   const obj = {
+//     author: createAuthor(avatarNumber),
+//     offer: createOffer(type, locationAdress.lat, locationAdress.lng),
+//     location: locationAdress,
+//   };
+//   return obj;
+// }
 
-const createAdvertisements = () => Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
+// const createAdvertisements = () => Array.from({length: SIMILAR_ADVERTISEMENT_COUNT}, (_, index) => createAdvertisement(index + 1));
 
-export {createAdvertisements, houseTypes};
+export {houseTypes};

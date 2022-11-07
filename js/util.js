@@ -58,7 +58,12 @@ const getRandomArray = (array) => {
   return randomArray;
 };
 
-export {getRandomNumber};
-export {getRandomFloat};
-export {getRandomArray};
-export {getRandomArrayElement};
+const showAlert = () => {
+  const templateFragment = document.querySelector('#error').content;
+  const fragment = document.createDocumentFragment();
+  const alertElement = templateFragment.cloneNode(true);
+  alertElement.appendChild(fragment);
+  return alertElement;
+};
+
+export {getRandomNumber, getRandomFloat, getRandomArray, getRandomArrayElement, showAlert};

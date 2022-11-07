@@ -35,4 +35,7 @@ const getAdFormActive = () => {
   });
 };
 
-export {getAdFormDisabled, getAdFormActive};
+
+const resetForm = () => adForm.reset();
+
+export {getAdFormDisabled, getAdFormActive, resetForm};
