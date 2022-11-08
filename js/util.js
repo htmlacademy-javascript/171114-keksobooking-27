@@ -58,12 +58,44 @@ const getRandomArray = (array) => {
   return randomArray;
 };
 
+const body = document.querySelector('body');
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const showAlert = () => {
-  const templateFragment = document.querySelector('#error').content;
-  const fragment = document.createDocumentFragment();
+  const templateFragment = document.querySelector('#error').content.querySelector('.error');
   const alertElement = templateFragment.cloneNode(true);
-  alertElement.appendChild(fragment);
-  return alertElement;
+  const errorButton = alertElement.querySelector('.error__button');
+
+  body.appendChild(alertElement);
+
+  errorButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    body.removeChild(alertElement);
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      body.removeChild(alertElement);
+      document.removeEventListener('keydown');
+    }
+  });
 };
 
-export {getRandomNumber, getRandomFloat, getRandomArray, getRandomArrayElement, showAlert};
+const showSuccess = () => {
+  const templateFragment = document.querySelector('#success').content.querySelector('.success');
+  const successElement = templateFragment.cloneNode(true);
+
+  body.appendChild(successElement);
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      body.removeChild(successElement);
+      document.removeEventListener('keydown');
+    }
+  });
+};
+
+export {getRandomNumber, getRandomFloat, getRandomArray, getRandomArrayElement, showAlert, showSuccess};

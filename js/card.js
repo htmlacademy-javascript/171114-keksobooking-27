@@ -1,4 +1,12 @@
-import {houseTypes} from './data.js';
+import {formatRooms, formatGuests} from './ad-form.js';
+
+const houseTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
 
 const createCardElement = (advertisement) => {
   const templateFragment = document.querySelector('#card').content.querySelector('.popup');
@@ -19,7 +27,7 @@ const createCardElement = (advertisement) => {
     advertisementElement.querySelector('.popup__type').textContent = houseTypes[advertisement.offer.type];
   }
   if (advertisement.offer.rooms || advertisement.offer.guests) {
-    advertisementElement.querySelector('.popup__text--capacity').textContent = `${advertisement.offer.rooms} комнаты для ${advertisement.offer.guests} гостей`;
+    advertisementElement.querySelector('.popup__text--capacity').textContent = `${advertisement.offer.rooms} ${formatRooms(advertisement.offer.rooms)} для ${advertisement.offer.guests} ${formatGuests(advertisement.offer.guests)}`;
   }
   if (advertisement.offer.checkin || advertisement.offer.checkout) {
     advertisementElement.querySelector('.popup__text--time').textContent = `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}`;
