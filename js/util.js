@@ -69,18 +69,28 @@ const showAlert = () => {
 
   body.appendChild(alertElement);
 
+  const onClick = (evt) => {
+    evt.preventDefault();
+    document.removeEventListener('click', onClick);
+    body.removeChild(alertElement);
+  };
+
+  alertElement.addEventListener('click', onClick);
+
   errorButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     body.removeChild(alertElement);
   });
 
-  document.addEventListener('keydown', (evt) => {
+  const onPopupEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      document.removeEventListener('keydown', onPopupEscKeydown);
       body.removeChild(alertElement);
-      document.removeEventListener('keydown');
     }
-  });
+  };
+
+  document.addEventListener('keydown', onPopupEscKeydown);
 };
 
 const showSuccess = () => {
@@ -89,12 +99,28 @@ const showSuccess = () => {
 
   body.appendChild(successElement);
 
-  document.addEventListener('keydown', (evt) => {
+  const onClick = (evt) => {
+    evt.preventDefault();
+    document.removeEventListener('click', onClick);
+    body.removeChild(successElement);
+  };
+
+  successElement.addEventListener('click', onClick);
+
+  const onPopupEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      document.removeEventListener('keydown', onPopupEscKeydown);
       body.removeChild(successElement);
-      document.removeEventListener('keydown');
     }
+  };
+
+  document.addEventListener('keydown', onPopupEscKeydown);
+
+  document.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    body.removeChild(successElement);
+    document.removeEventListener('click');
   });
 };
 

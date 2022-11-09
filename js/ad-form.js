@@ -1,6 +1,7 @@
 import {showAlert, showSuccess} from './util.js';
 import {sendData} from './api.js';
 import {updateSlider} from './slider.js';
+import {resetMap} from './map.js';
 
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
@@ -16,6 +17,7 @@ const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const address = adForm.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const priceOfTypes = {
   flat: 1000,
@@ -179,6 +181,11 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Сохранить';
 };
 
+const reset = () => {
+  adForm.reset();
+  resetMap();
+};
+
 const setAdFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -204,6 +211,11 @@ const setAdFormSubmit = (onSuccess) => {
   });
 };
 
-const resetForm = () => adForm.reset();
+const resetAdForm = () => {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    reset();
+  });
+};
 
-export {setAddress, formatRooms, formatGuests, getAdFormDisabled, getAdFormActive, setAdFormSubmit, resetForm};
+export {setAddress, formatRooms, formatGuests, getAdFormDisabled, getAdFormActive, setAdFormSubmit, resetAdForm, reset};

@@ -1,4 +1,4 @@
-import {setAddress, setAdFormSubmit, getAdFormDisabled, getAdFormActive, resetForm} from './ad-form.js';
+import {setAddress, setAdFormSubmit, getAdFormDisabled, getAdFormActive, resetAdForm, reset} from './ad-form.js';
 import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove} from './map.js';
 import {createSlider, setOnSliderUpdate} from './slider.js';
 import {getData} from './api.js';
@@ -23,4 +23,5 @@ getAdFormDisabled();
 initMap(START_COORDINATE);
 createSlider();
 setOnSliderUpdate();
-setAdFormSubmit(resetForm);
+setAdFormSubmit(reset);
+resetAdForm();

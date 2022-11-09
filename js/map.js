@@ -1,4 +1,5 @@
 import {createCardElement} from './card.js';
+import {START_COORDINATE} from './main';
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
@@ -17,8 +18,7 @@ const adPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.692,
+    START_COORDINATE,
   },
   {
     draggable: true,
@@ -69,4 +69,10 @@ const setOnMainPinMove = (cb) => {
   mainMarker.on('move', (evt) => cb(evt.target.getLatLng()));
 };
 
-export {initMap, setAdPins, setOnMapLoad, setOnMainPinMove};
+const resetMap = (coordinate) => {
+  mainMarker.setLatLng(coordinate);
+  map.setView(coordinate, 10);
+};
+
+
+export {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap};
