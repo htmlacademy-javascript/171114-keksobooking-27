@@ -1,7 +1,5 @@
-import {showAlert, showSuccess} from './util.js';
 import {sendData} from './api.js';
 import {updateSlider} from './slider.js';
-import {resetMap} from './map.js';
 
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
@@ -18,6 +16,9 @@ const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const address = adForm.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
+const body = document.querySelector('body');
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const priceOfTypes = {
   flat: 1000,
@@ -78,7 +79,6 @@ const pristine = new Pristine(
   },
   true
 );
-
 
 const validateCapacity = () => roomsToGuests[roomNumber.value].includes(capacity.value);
 const validateRoomNumber = () => guestsToRooms[capacity.value].includes(roomNumber.value);
@@ -181,9 +181,51 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Сохранить';
 };
 
-const reset = () => {
+const resetForm = () => {
   adForm.reset();
-  resetMap();
+  slider.noUiSlider.set(price.value);
+};
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const onMessageEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hideMessage();
+  }
+};
+
+const onOverlayClick = () => {
+  hideMessage();
+};
+
+const onErrorButtonClick = () => {
+  hideMessage();
+};
+
+function hideMessage() {
+  const messageElement =
+    document.querySelector('.success') || document.querySelector('.error');
+  messageElement.remove();
+  document.removeEventListener('keydown', onMessageEscKeydown);
+  document.removeEventListener('click', onOverlayClick);
+  body.style.overflow = 'auto';
+}
+
+const showSuccessMessage = () => {
+  const successElement = successMessageTemplate.cloneNode(true);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener('click', onOverlayClick);
+  body.append(successElement);
+  body.style.overflow = 'hidden';
+};
+
+const showErrorMessage = () => {
+  const errorElement = errorMessageTemplate.cloneNode(true);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
+  body.append(errorElement);
+  body.style.overflow = 'hidden';
 };
 
 const setAdFormSubmit = (onSuccess) => {
@@ -196,13 +238,13 @@ const setAdFormSubmit = (onSuccess) => {
       blockSubmitButton();
       sendData(
         () => {
-          showSuccess();
+          showSuccessMessage();
           unblockSubmitButton();
           onSuccess();
         },
 
         () => {
-          showAlert();
+          showErrorMessage();
           unblockSubmitButton();
         },
         formData,
@@ -211,11 +253,11 @@ const setAdFormSubmit = (onSuccess) => {
   });
 };
 
-const resetAdForm = () => {
+const onResetAdForm = () => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    reset();
+    resetForm();
   });
 };
 
-export {setAddress, formatRooms, formatGuests, getAdFormDisabled, getAdFormActive, setAdFormSubmit, resetAdForm, reset};
+export {setAddress, formatRooms, formatGuests, getAdFormDisabled, getAdFormActive, setAdFormSubmit, onResetAdForm, resetForm, showSuccessMessage, showErrorMessage};

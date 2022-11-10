@@ -1,8 +1,18 @@
-const getData = (onSuccess) => {
+const getData = (onSuccess, onFail) => {
   fetch('https://27.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        response.json();
+      }
+      else {
+        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      }
+    })
     .then((advertisements) => {
       onSuccess(advertisements);
+    })
+    .catch(() => {
+      onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
 

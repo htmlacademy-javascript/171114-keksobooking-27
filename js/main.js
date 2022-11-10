@@ -1,14 +1,14 @@
-import {setAddress, setAdFormSubmit, getAdFormDisabled, getAdFormActive, resetAdForm, reset} from './ad-form.js';
-import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove} from './map.js';
+import {setAddress, setAdFormSubmit, getAdFormDisabled, getAdFormActive, resetAdForm, resetForm, showSuccessMessage, showErrorMessage} from './ad-form.js';
+import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap} from './map.js';
 import {createSlider, setOnSliderUpdate} from './slider.js';
 import {getData} from './api.js';
+import {START_COORDINATE, SIMILAR_ADVERTISEMENT_COUNT} from './constants.js';
 
-const START_COORDINATE = {
-  lat: 35.66023,
-  lng: 139.73007,
+const onSendDataSuccess = () => {
+  resetForm();
+  resetMap();
+  showSuccessMessage();
 };
-
-const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
@@ -23,5 +23,5 @@ getAdFormDisabled();
 initMap(START_COORDINATE);
 createSlider();
 setOnSliderUpdate();
-setAdFormSubmit(reset);
+setAdFormSubmit();
 resetAdForm();
