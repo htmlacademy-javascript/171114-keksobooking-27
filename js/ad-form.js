@@ -205,6 +205,7 @@ const showSuccessMessage = () => {
 const showErrorMessage = () => {
   const errorElement = errorMessageTemplate.cloneNode(true);
   document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener('click', onOverlayClick);
   errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
   body.append(errorElement);
   body.style.overflow = 'hidden';
