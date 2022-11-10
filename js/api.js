@@ -1,39 +1,34 @@
-const getData = (onSuccess, onFail) => {
-  fetch('https://27.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if (response.ok) {
-        response.json();
-      }
-      else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
-      }
-    })
-    .then((advertisements) => {
-      onSuccess(advertisements);
-    })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
-    });
+const getData = async (onSuccess, onFail) => {
+  try {
+    const response = await fetch('https://27.javascript.pages.academy/keksobooking/data');
+    if (!response.ok) {
+      throw new Error ('Не удалось загрузить объявления');
+    }
+
+    const offers = await response.json();
+    onSuccess(offers);
+  } catch (error) {
+    onFail(error.message);
+  }
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    'https://27.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body,
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
-      }
-    })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
-    });
+const sendData = async (onSuccess, onFail, body) => {
+  try {
+    const response = await fetch(
+      'https://27.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body,
+      },
+    );
+    if (!response.ok) {
+      throw new Error ('Не удалось отправить данные');
+    }
+
+    onSuccess();
+  } catch (error) {
+    onFail(error.message);
+  }
 };
 
 export {getData, sendData};

@@ -1,6 +1,6 @@
 import {createCardElement} from './card.js';
 import {START_COORDINATE} from './constants.js';
-import {setAddress} from './map.js';
+import {setAddress} from './ad-form.js';
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);

@@ -1,12 +1,8 @@
-import {sendData} from './api.js';
 import {updateSlider} from './slider.js';
 
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
 const slider = adForm.querySelector('.ad-form__slider');
-const mapFilter = document.querySelector('.map__filters');
-const mapSelects = mapFilter.querySelectorAll('select');
-const mapInputs = mapFilter.querySelectorAll('input');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const timein = adForm.querySelector('#timein');
 const timeout = adForm.querySelector('#timeout');
@@ -143,31 +139,17 @@ const setAddress = ({lat, lng}) => {
 
 const getAdFormDisabled = () => {
   adForm.classList.add('ad-form--disabled');
-  mapFilter.classList.add('map__filters--disabled');
   slider.classList.add('ad-form__slider--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
-  });
-  mapSelects.forEach((select) => {
-    select.disabled = true;
-  });
-  mapInputs.forEach((input) => {
-    input.disabled = true;
   });
 };
 
 const getAdFormActive = () => {
   adForm.classList.remove('ad-form--disabled');
-  mapFilter.classList.remove('map__filters--disabled');
   slider.classList.remove('ad-form__slider--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
-  });
-  mapSelects.forEach((select) => {
-    select.disabled = false;
-  });
-  mapInputs.forEach((input) => {
-    input.disabled = false;
   });
 };
 
@@ -228,36 +210,36 @@ const showErrorMessage = () => {
   body.style.overflow = 'hidden';
 };
 
-const setAdFormSubmit = (onSuccess) => {
-  adForm.addEventListener('submit', (evt) => {
+const setOnFormSubmit = (cb) => {
+  adForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-
     const isValid = pristine.validate();
-    if (isValid) {
-      const formData = new FormData(evt.target);
-      blockSubmitButton();
-      sendData(
-        () => {
-          showSuccessMessage();
-          unblockSubmitButton();
-          onSuccess();
-        },
 
-        () => {
-          showErrorMessage();
-          unblockSubmitButton();
-        },
-        formData,
-      );
+    if (isValid) {
+      blockSubmitButton();
+      await cb (new FormData(evt.target));
+      unblockSubmitButton();
     }
   });
 };
 
-const onResetAdForm = () => {
+const onResetAdForm = (reset) => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetForm();
+    reset();
   });
 };
 
-export {setAddress, formatRooms, formatGuests, getAdFormDisabled, getAdFormActive, setAdFormSubmit, onResetAdForm, resetForm, showSuccessMessage, showErrorMessage};
+export {
+  setAddress,
+  formatRooms,
+  formatGuests,
+  getAdFormDisabled,
+  getAdFormActive,
+  setOnFormSubmit,
+  onResetAdForm,
+  resetForm,
+  showSuccessMessage,
+  showErrorMessage
+};

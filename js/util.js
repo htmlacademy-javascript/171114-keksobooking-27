@@ -1,5 +1,29 @@
 import {ALERT_SHOW_TIME} from './constants.js';
 
+const mapFilter = document.querySelector('.map__filters');
+const mapSelects = mapFilter.querySelectorAll('select');
+const mapInputs = mapFilter.querySelectorAll('input');
+
+const turnFilterOff = () => {
+  mapFilter.classList.add('map__filters--disabled');
+  mapSelects.forEach((select) => {
+    select.disabled = true;
+  });
+  mapInputs.forEach((input) => {
+    input.disabled = true;
+  });
+};
+
+const turnFilterOn = () => {
+  mapFilter.classList.remove('map__filters--disabled');
+  mapSelects.forEach((select) => {
+    select.disabled = false;
+  });
+  mapInputs.forEach((input) => {
+    input.disabled = false;
+  });
+};
+
 const showAlert = (message) => {
   const alert = document.createElement('div');
   alert.style.position = 'absolute';
@@ -19,4 +43,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlert};
+export {showAlert, turnFilterOff, turnFilterOn};

@@ -1,7 +1,8 @@
-import {setAddress, setAdFormSubmit, getAdFormDisabled, getAdFormActive, resetAdForm, resetForm, showSuccessMessage, showErrorMessage} from './ad-form.js';
+import {setAddress, getAdFormDisabled, getAdFormActive, onResetAdForm, resetForm, showSuccessMessage, showErrorMessage, setOnFormSubmit} from './ad-form.js';
 import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap} from './map.js';
 import {createSlider, setOnSliderUpdate} from './slider.js';
-import {getData} from './api.js';
+import {getData, sendData} from './api.js';
+import {showAlert, turnFilterOff, turnFilterOn} from './util.js';
 import {START_COORDINATE, SIMILAR_ADVERTISEMENT_COUNT} from './constants.js';
 
 const onSendDataSuccess = () => {
@@ -10,18 +11,27 @@ const onSendDataSuccess = () => {
   showSuccessMessage();
 };
 
+const onGetDataSuccess = (advertisements) => {
+  setAdPins(advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
+  turnFilterOn();
+};
+
 setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
-  setAddress(START_COORDINATE);
+  resetMap();
   getAdFormActive();
-  getData((advertisements) => {
-    setAdPins(advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
-  });
+  turnFilterOn();
+});
+
+onResetAdForm(resetMap);
+
+setOnFormSubmit(async (data) => {
+  await sendData(onSendDataSuccess, showErrorMessage, data);
 });
 
 getAdFormDisabled();
+turnFilterOff();
 initMap(START_COORDINATE);
 createSlider();
 setOnSliderUpdate();
-setAdFormSubmit();
-resetAdForm();
+getData(onGetDataSuccess, showAlert);
