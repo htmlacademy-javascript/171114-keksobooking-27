@@ -20,7 +20,6 @@ setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
   resetMap();
   getAdFormActive();
-  turnFilterOn();
 });
 
 onResetAdForm(resetMap);
