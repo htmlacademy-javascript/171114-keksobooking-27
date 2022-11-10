@@ -1,6 +1,7 @@
 import {createCardElement} from './card.js';
+import {START_COORDINATE} from './constants.js';
+import {setAddress} from './ad-form.js';
 
-const ADVERTISEMENTS_COUNT = 10;
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -18,8 +19,7 @@ const adPinIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.692,
+    START_COORDINATE,
   },
   {
     draggable: true,
@@ -59,7 +59,7 @@ const creataAdPinMarkers = (advertisements) => {
 
 const setAdPins = (advertisements) => {
   markerGroup.clearLayers();
-  creataAdPinMarkers(advertisements.slice(0, ADVERTISEMENTS_COUNT));
+  creataAdPinMarkers(advertisements);
 };
 
 const setOnMapLoad = (cb) => {
@@ -70,4 +70,11 @@ const setOnMainPinMove = (cb) => {
   mainMarker.on('move', (evt) => cb(evt.target.getLatLng()));
 };
 
-export {initMap, setAdPins, setOnMapLoad, setOnMainPinMove};
+const resetMap = () => {
+  mainMarker.setLatLng(START_COORDINATE);
+  map.setView(START_COORDINATE, 10);
+  setAddress(START_COORDINATE);
+};
+
+
+export {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap};

@@ -1,64 +1,46 @@
-const getRandomNumber = (min, max) => {
-  if (min < 0 || max < 0) {
-    return NaN;
-  }
-  if ((max - min) === 0) {
-    return NaN;
-  }
-  const result = Math.random() * (max - min);
-  if ((max - min) > 0) {
-    return Math.round(result + min);
-  }
-  return Math.round(max - result);
+import {ALERT_SHOW_TIME} from './constants.js';
+
+const mapFilter = document.querySelector('.map__filters');
+const mapSelects = mapFilter.querySelectorAll('select');
+const mapInputs = mapFilter.querySelectorAll('input');
+
+const turnFilterOff = () => {
+  mapFilter.classList.add('map__filters--disabled');
+  mapSelects.forEach((select) => {
+    select.disabled = true;
+  });
+  mapInputs.forEach((input) => {
+    input.disabled = true;
+  });
 };
 
-const getRandomFloat = (min, max, numberOfDecimalPlases) => {
-  if (min < 0 || max < 0 || numberOfDecimalPlases < 0) {
-    return NaN;
-  }
-
-  if ((max - min) === 0) {
-    return NaN;
-  }
-  let count = 1;
-  for (let i = 0; i < numberOfDecimalPlases; i++) {
-    count = count * 10;
-  }
-  const result = Math.random() * (max - min);
-
-  if ((max - min) > 0) {
-
-    return Math.round((result + min) * count) / count;
-  }
-  return Math.round((max - result) * count) / count;
+const turnFilterOn = () => {
+  mapFilter.classList.remove('map__filters--disabled');
+  mapSelects.forEach((select) => {
+    select.disabled = false;
+  });
+  mapInputs.forEach((input) => {
+    input.disabled = false;
+  });
 };
 
-const getRandomPositiveInteger = (a, b) => {
-  if (a < 0 || b < 0) {
-    return NaN;
-  }
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+const showAlert = (message) => {
+  const alert = document.createElement('div');
+  alert.style.position = 'absolute';
+  alert.style.zIndex = '100';
+  alert.style.left = '0';
+  alert.style.top = '0';
+  alert.style.right = '0';
+  alert.style.padding = '10px 3px';
+  alert.style.fontSize = '30px';
+  alert.style.textAlign = 'center';
+  alert.style.backgroundColor = 'red';
+  alert.textContent = message;
+  document.body.append(alert);
+
+  setTimeout(() => {
+    alert.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
-
-const getRandomArray = (array) => {
-  const number = getRandomNumber(0, (array.length - 1));
-  const randomArray = [0];
-  let element = getRandomArrayElement(array);
-  for (let i = 0; i < number; i++) {
-    while (randomArray.includes(element)) {
-      element = getRandomArrayElement(array);
-    }
-    randomArray[i] = element;
-  }
-  return randomArray;
-};
-
-export {getRandomNumber};
-export {getRandomFloat};
-export {getRandomArray};
-export {getRandomArrayElement};
+export {showAlert, turnFilterOff, turnFilterOn};
