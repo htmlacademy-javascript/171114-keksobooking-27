@@ -1,4 +1,4 @@
-import {ALERT_SHOW_TIME} from './constants.js';
+import {ALERT_SHOW_TIME, TIMEOUT_DELAY} from './constants.js';
 
 const mapFilter = document.querySelector('.map__filters');
 const mapSelects = mapFilter.querySelectorAll('select');
@@ -43,4 +43,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlert, turnFilterOff, turnFilterOn};
+const debounce = (callback, timeoutDelay = TIMEOUT_DELAY) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {showAlert, turnFilterOff, turnFilterOn, debounce};

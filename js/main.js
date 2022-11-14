@@ -2,18 +2,24 @@ import {setAddress, getAdFormDisabled, getAdFormActive, onResetAdForm, resetForm
 import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap} from './map.js';
 import {createSlider, setOnSliderUpdate} from './slider.js';
 import {getData, sendData} from './api.js';
-import {showAlert, turnFilterOff, turnFilterOn} from './util.js';
-import {START_COORDINATE, SIMILAR_ADVERTISEMENT_COUNT} from './constants.js';
+import {showAlert, turnFilterOff, turnFilterOn, debounce} from './util.js';
+import {START_COORDINATE} from './constants.js';
+import {setOnFilterChange, getFilteredOffers, resetFilter} from './filters.js';
+
+const onGetDataSuccess = (advertisements) => {
+  setOnFilterChange(debounce(() => {
+    setAdPins(getFilteredOffers(advertisements));
+  }));
+  setAdPins(getFilteredOffers(advertisements));
+  turnFilterOn();
+};
 
 const onSendDataSuccess = () => {
   resetForm();
   resetMap();
+  resetFilter();
   showSuccessMessage();
-};
-
-const onGetDataSuccess = (advertisements) => {
-  setAdPins(advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
-  turnFilterOn();
+  getData(onGetDataSuccess, showAlert);
 };
 
 setOnMapLoad(() => {
@@ -22,7 +28,11 @@ setOnMapLoad(() => {
   getAdFormActive();
 });
 
-onResetAdForm(resetMap);
+onResetAdForm(() => {
+  resetMap();
+  resetFilter();
+  getData(onGetDataSuccess, showAlert);
+});
 
 setOnFormSubmit(async (data) => {
   await sendData(onSendDataSuccess, showErrorMessage, data);
