@@ -17,7 +17,7 @@ const successMessageTemplate = document.querySelector('#success').content.queryS
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const fileChooserAvatar = adForm.querySelector('#avatar');
 const previewAvatar = adForm.querySelector('.ad-form-header__preview');
-const fileChooserImages = adForm.querySelector('#images');
+//const fileChooserImages = adForm.querySelector('#images');
 const previewImage = adForm.querySelector('.ad-form__photo');
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
