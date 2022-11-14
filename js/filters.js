@@ -1,116 +1,83 @@
-import {turnFilterOff} from './util.js';
+import {ADVERTISEMENT_COUNT} from './constants.js';
 
-const HOUSING_PRICE = {
-  any: 0,
-  low: 10000,
-  middle: 50000,
-  high: 50000,
+const Price = {
+  MIDDLE: 10000,
+  HIGH: 50000,
 };
 
-const typeFilter = document.querySelector('#housing-type');
-const priceFilter = document.querySelector('#housing-price');
-const roomsFilter = document.querySelector('#housing-rooms');
-const guestsFilter = document.querySelector('#housing-guests');
-const featuresFilter = document.querySelector('#housing-features');
-const featuresListFilter = featuresFilter.querySelectorAll('.map__checkbox');
+const filterElement = document.querySelector('.map__filters');
+const typeFilter = filterElement.querySelector('#housing-type');
+const priceFilter = filterElement.querySelector('#housing-price');
+const roomsFilter = filterElement.querySelector('#housing-rooms');
+const guestsFilter = filterElement.querySelector('#housing-guests');
+const featuresCheckboxes = filterElement.querySelectorAll('.map__checkbox');
 
-const filterTypes = (advertisements) => {
-  let filtered = advertisements;
-  if(typeFilter.value !== 'any') {
-    filtered = advertisements.filter((advertisement) => advertisement.offer.type === typeFilter.value);
-  }
-  return filtered;
-};
+const filterByTypes = (offer, type) => type === 'any' || offer.offer.type === type;
 
-const filterPrice = (advertisements) => {
-  let filtered = advertisements;
-  switch (priceFilter.value) {
-    case 'low':
-      filtered = advertisements.filter((advertisement) => parseInt(advertisement.offer.price, 10) < HOUSING_PRICE['low']);
-      return filtered;
-    case 'middle':
-      filtered = advertisements.filter((advertisement) => parseInt(advertisement.offer.price, 10) > HOUSING_PRICE['low'] && parseInt(advertisement.offer.price, 10) < HOUSING_PRICE['high']);
-      return filtered;
-    case 'high':
-      filtered = advertisements.filter((advertisement) => parseInt(advertisement.offer.price, 10) > HOUSING_PRICE['high']);
-      return filtered;
+const filterByPrice = (offer, price) => {
+  switch (price) {
     case 'any':
-    default:
-      return filtered;
+      return true;
+    case 'low':
+      return offer.offer.price < Price.MIDDLE;
+    case 'middle':
+      return (offer.offer.price < Price.HIGH && offer.offer.price > Price.MIDDLE);
+    case 'high':
+      return offer.offer.price > Price.HIGH;
   }
 };
 
-const filterRooms = (advertisements) => {
-  let filtered = advertisements;
-  if(roomsFilter.value !== 'any') {
-    filtered = advertisements.filter((advertisement) => advertisement.offer.rooms === parseInt(roomsFilter.value, 10));
+const filterByRooms = (offer, rooms) => rooms === 'any' || offer.offer.rooms === parseInt(rooms, 10);
+
+const filterByGuests = (offer, guests) => guests === 'any' || offer.offer.guests === parseInt(guests, 10);
+
+const filterByFeatures = (offer, features) => {
+  if(!features.length) {
+    return true;
   }
-  return filtered;
+
+  if(!offer.offer.features) {
+    return false;
+  }
+
+  return features.every((feature) => offer.offer.features.includes(feature));
 };
 
-const filterGuests = (advertisements) => {
-  let filtered = advertisements;
-  if(guestsFilter.value !== 'any') {
-    filtered = advertisements.filter((advertisement) => advertisement.offer.guests === parseInt(guestsFilter.value, 10));
-  }
-  return filtered;
-};
+const getFilteredOffers = (offers) => {
+  const selectedType = typeFilter.value;
+  const selectedPrice = priceFilter.value;
+  const selectedRooms = roomsFilter.value;
+  const selectedGuests = guestsFilter.value;
 
-const filterFeatures = (advertisements) => {
-  const filtered = [];
-
-  advertisements.forEach((advertisement) => {
-    const features = advertisement.offer.features;
-    if(features) {
-      featuresListFilter.forEach((featureListItem) => {
-        if(featureListItem.checked === true) {
-          console.log(featureListItem.value);
-          const isNecessary = features.some(
-            (feature) => featureListItem.value === feature,
-          );
-          if (isNecessary) {
-            filtered.push(advertisement);
-          }
-        }
-      });
+  const selectedFeatures = [];
+  featuresCheckboxes.forEach((checkbox) => {
+    if(checkbox.checked) {
+      selectedFeatures.push(checkbox.value);
     }
   });
 
-  return filtered;
+  const filtetredOffers = [];
+  for (const offer of offers) {
+    if(filtetredOffers.length >= ADVERTISEMENT_COUNT) {
+      break;
+    }
+    if(
+      filterByTypes(offer, selectedType) &&
+      filterByPrice(offer, selectedPrice) &&
+      filterByRooms(offer, selectedRooms) &&
+      filterByGuests(offer, selectedGuests) &&
+      filterByFeatures(offer, selectedFeatures)
+    ) {
+      filtetredOffers.push(offer);
+    }
+  }
+  return filtetredOffers;
 };
 
-const onChangeFilter = (cb) => {
-  typeFilter.addEventListener('change', (evt) => {
-    evt.preventDefault();
-    turnFilterOff();
+const setOnFilterChange = (cb) => {
+  filterElement.addEventListener('change', () => {
     cb();
-  });
-
-  priceFilter.addEventListener('change', (evt) => {
-    evt.preventDefault();
-    turnFilterOff();
-    cb();
-  });
-
-  roomsFilter.addEventListener('change', (evt) => {
-    evt.preventDefault();
-    turnFilterOff();
-    cb();
-  });
-
-  guestsFilter.addEventListener('change', (evt) => {
-    evt.preventDefault();
-    turnFilterOff();
-    cb();
-  });
-
-  featuresListFilter.forEach((featureListItem) => {
-    featureListItem.addEventListener('change', (evt) => {
-      evt.preventDefault();
-      turnFilterOff();
-      cb();
-    });
   });
 };
 
-export {filterTypes, filterPrice, filterRooms, filterGuests, filterFeatures, onChangeFilter};
+export {setOnFilterChange, getFilteredOffers};

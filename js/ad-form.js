@@ -11,10 +11,17 @@ const capacity = adForm.querySelector('#capacity');
 const type = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const address = adForm.querySelector('#address');
-const resetButton = document.querySelector('.ad-form__reset');
+const resetButton = adForm.querySelector('.ad-form__reset');
 const body = document.querySelector('body');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const fileChooserAvatar = adForm.querySelector('#avatar');
+const previewAvatar = adForm.querySelector('.ad-form-header__preview');
+const fileChooserImages = adForm.querySelector('#images');
+const previewImage = adForm.querySelector('.ad-form__photo');
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const DEFAULT_AVATAR = 'img/avatars/default.png';
 
 const priceOfTypes = {
   flat: 1000,
@@ -64,6 +71,22 @@ const formatGuests = (guestsCount) => {
   const rule = pluralRuleSelector.select(guestsCount);
 
   return `${guestsUnitByRule[rule]}`;
+};
+
+const onImageChange = () => {
+  const file = fileChooserAvatar.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    previewAvatar.innerHTML = '';
+    const image = document.createElement('img');
+    image.src = URL.createObjectURL(file);
+    image.style.maxWidth = '100%';
+    image.style.width = '40';
+    image.style.height = '40';
+    image.style.padding = '0';
+    previewAvatar.append(image);
+  }
 };
 
 const pristine = new Pristine(
@@ -130,6 +153,8 @@ price.addEventListener('change', (evt) => {
   price.placeholder = `${priceOfTypes[type.value]}`;
 });
 
+fileChooserAvatar.addEventListener('change', onImageChange);
+
 const setAddress = ({lat, lng}) => {
   lat = lat.toFixed(5);
   lng = lng.toFixed(5);
@@ -165,7 +190,10 @@ const unblockSubmitButton = () => {
 
 const resetForm = () => {
   adForm.reset();
+  pristine.reset();
   slider.noUiSlider.set(price.value);
+  previewImage.innerHTML = '';
+  previewAvatar.src = DEFAULT_AVATAR;
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
