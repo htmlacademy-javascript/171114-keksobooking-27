@@ -80,4 +80,6 @@ const setOnFilterChange = (cb) => {
   });
 };
 
-export {setOnFilterChange, getFilteredOffers};
+const resetFilter = () => filterElement.reset();
+
+export {setOnFilterChange, getFilteredOffers, resetFilter};

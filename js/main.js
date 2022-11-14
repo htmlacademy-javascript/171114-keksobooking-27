@@ -4,13 +4,7 @@ import {createSlider, setOnSliderUpdate} from './slider.js';
 import {getData, sendData} from './api.js';
 import {showAlert, turnFilterOff, turnFilterOn, debounce} from './util.js';
 import {START_COORDINATE} from './constants.js';
-import {setOnFilterChange, getFilteredOffers} from './filters.js';
-
-const onSendDataSuccess = () => {
-  resetForm();
-  resetMap();
-  showSuccessMessage();
-};
+import {setOnFilterChange, getFilteredOffers, resetFilter} from './filters.js';
 
 const onGetDataSuccess = (advertisements) => {
   setOnFilterChange(debounce(() => {
@@ -20,13 +14,25 @@ const onGetDataSuccess = (advertisements) => {
   turnFilterOn();
 };
 
+const onSendDataSuccess = () => {
+  resetForm();
+  resetMap();
+  resetFilter();
+  showSuccessMessage();
+  getData(onGetDataSuccess, showAlert);
+};
+
 setOnMapLoad(() => {
   setOnMainPinMove(setAddress);
   resetMap();
   getAdFormActive();
 });
 
-onResetAdForm(resetMap);
+onResetAdForm(() => {
+  resetMap();
+  resetFilter();
+  getData(onGetDataSuccess, showAlert);
+});
 
 setOnFormSubmit(async (data) => {
   await sendData(onSendDataSuccess, showErrorMessage, data);
