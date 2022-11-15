@@ -80,7 +80,7 @@ const onAvatarChange = () => {
   if (matches) {
     previewAvatar.innerHTML = '';
     previewAvatar.style.padding = '0';
-    previewAvatar.style.width = '190px';
+    previewAvatar.style.width = '170px';
     const image = document.createElement('img');
     image.src = URL.createObjectURL(file);
     image.style.maxWidth = '100%';
