@@ -3,7 +3,6 @@ import {initMap, setAdPins, setOnMapLoad, setOnMainPinMove, resetMap} from './ma
 import {createSlider, setOnSliderUpdate} from './slider.js';
 import {getData, sendData} from './api.js';
 import {showAlert, turnFilterOff, turnFilterOn, debounce} from './util.js';
-import {START_COORDINATE} from './constants.js';
 import {setOnFilterChange, getFilteredOffers, resetFilter} from './filters.js';
 
 const onGetDataSuccess = (advertisements) => {
@@ -40,7 +39,7 @@ setOnFormSubmit(async (data) => {
 
 getAdFormDisabled();
 turnFilterOff();
-initMap(START_COORDINATE);
+initMap();
 createSlider();
 setOnSliderUpdate();
 getData(onGetDataSuccess, showAlert);

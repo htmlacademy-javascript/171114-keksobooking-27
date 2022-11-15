@@ -1,6 +1,10 @@
 import {createCardElement} from './card.js';
-import {START_COORDINATE} from './constants.js';
 import {setAddress} from './ad-form.js';
+
+const START_COORDINATE = {
+  lat: 35.66023,
+  lng: 139.73007,
+};
 
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
@@ -27,8 +31,8 @@ const mainMarker = L.marker(
   },
 );
 
-const initMap = (coordinate) => {
-  map.setView(coordinate, 10);
+const initMap = () => {
+  map.setView(START_COORDINATE, 10);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -37,7 +41,7 @@ const initMap = (coordinate) => {
     },
   ).addTo(map);
 
-  mainMarker.setLatLng(coordinate);
+  mainMarker.setLatLng(START_COORDINATE);
   mainMarker.addTo(map);
 };
 

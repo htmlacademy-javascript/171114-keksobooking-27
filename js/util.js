@@ -1,45 +1,46 @@
-import {ALERT_SHOW_TIME, TIMEOUT_DELAY} from './constants.js';
+const ALERT_SHOW_TIME = 700;
+const TIMEOUT_DELAY = 500;
 
-const mapFilter = document.querySelector('.map__filters');
-const mapSelects = mapFilter.querySelectorAll('select');
-const mapInputs = mapFilter.querySelectorAll('input');
+const mapFilterElement = document.querySelector('.map__filters');
+const mapSelectElements = mapFilterElement.querySelectorAll('select');
+const mapInputElements = mapFilterElement.querySelectorAll('input');
 
 const turnFilterOff = () => {
-  mapFilter.classList.add('map__filters--disabled');
-  mapSelects.forEach((select) => {
+  mapFilterElement.classList.add('map__filters--disabled');
+  mapSelectElements.forEach((select) => {
     select.disabled = true;
   });
-  mapInputs.forEach((input) => {
+  mapInputElements.forEach((input) => {
     input.disabled = true;
   });
 };
 
 const turnFilterOn = () => {
-  mapFilter.classList.remove('map__filters--disabled');
-  mapSelects.forEach((select) => {
+  mapFilterElement.classList.remove('map__filters--disabled');
+  mapSelectElements.forEach((select) => {
     select.disabled = false;
   });
-  mapInputs.forEach((input) => {
+  mapInputElements.forEach((input) => {
     input.disabled = false;
   });
 };
 
 const showAlert = (message) => {
-  const alert = document.createElement('div');
-  alert.style.position = 'absolute';
-  alert.style.zIndex = '100';
-  alert.style.left = '0';
-  alert.style.top = '0';
-  alert.style.right = '0';
-  alert.style.padding = '10px 3px';
-  alert.style.fontSize = '30px';
-  alert.style.textAlign = 'center';
-  alert.style.backgroundColor = 'red';
-  alert.textContent = message;
-  document.body.append(alert);
+  const alertElement = document.createElement('div');
+  alertElement.style.position = 'absolute';
+  alertElement.style.zIndex = '100';
+  alertElement.style.left = '0';
+  alertElement.style.top = '0';
+  alertElement.style.right = '0';
+  alertElement.style.padding = '10px 3px';
+  alertElement.style.fontSize = '30px';
+  alertElement.style.textAlign = 'center';
+  alertElement.style.backgroundColor = 'red';
+  alertElement.textContent = message;
+  document.body.append(alertElement);
 
   setTimeout(() => {
-    alert.remove();
+    alertElement.remove();
   }, ALERT_SHOW_TIME);
 };
 

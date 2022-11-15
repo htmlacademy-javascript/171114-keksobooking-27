@@ -1,8 +1,8 @@
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-
 const MIN = 1000;
 const MAX = 100000;
+
+const sliderElement = document.querySelector('.ad-form__slider');
+const valueElement = document.querySelector('#price');
 
 const createSlider = () => {
   noUiSlider.create(sliderElement, {

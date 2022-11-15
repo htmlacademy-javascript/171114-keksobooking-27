@@ -1,4 +1,4 @@
-import {ADVERTISEMENT_COUNT} from './constants.js';
+const ADVERTISEMENT_COUNT = 10;
 
 const Price = {
   MIDDLE: 10000,
@@ -6,11 +6,11 @@ const Price = {
 };
 
 const filterElement = document.querySelector('.map__filters');
-const typeFilter = filterElement.querySelector('#housing-type');
-const priceFilter = filterElement.querySelector('#housing-price');
-const roomsFilter = filterElement.querySelector('#housing-rooms');
-const guestsFilter = filterElement.querySelector('#housing-guests');
-const featuresCheckboxes = filterElement.querySelectorAll('.map__checkbox');
+const typeFilterElement = filterElement.querySelector('#housing-type');
+const priceFilterElement = filterElement.querySelector('#housing-price');
+const roomsFilterElement = filterElement.querySelector('#housing-rooms');
+const guestsFilterElement = filterElement.querySelector('#housing-guests');
+const featuresCheckboxElements = filterElement.querySelectorAll('.map__checkbox');
 
 const filterByTypes = (offer, type) => type === 'any' || offer.offer.type === type;
 
@@ -44,13 +44,13 @@ const filterByFeatures = (offer, features) => {
 };
 
 const getFilteredOffers = (offers) => {
-  const selectedType = typeFilter.value;
-  const selectedPrice = priceFilter.value;
-  const selectedRooms = roomsFilter.value;
-  const selectedGuests = guestsFilter.value;
+  const selectedType = typeFilterElement.value;
+  const selectedPrice = priceFilterElement.value;
+  const selectedRooms = roomsFilterElement.value;
+  const selectedGuests = guestsFilterElement.value;
 
   const selectedFeatures = [];
-  featuresCheckboxes.forEach((checkbox) => {
+  featuresCheckboxElements.forEach((checkbox) => {
     if(checkbox.checked) {
       selectedFeatures.push(checkbox.value);
     }
