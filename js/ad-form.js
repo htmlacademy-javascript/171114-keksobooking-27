@@ -17,11 +17,11 @@ const successMessageTemplate = document.querySelector('#success').content.queryS
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const fileChooserAvatar = adForm.querySelector('#avatar');
 const previewAvatar = adForm.querySelector('.ad-form-header__preview');
-//const fileChooserImages = adForm.querySelector('#images');
+const fileChooserImages = adForm.querySelector('#images');
 const previewImage = adForm.querySelector('.ad-form__photo');
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const DEFAULT_AVATAR = 'img/avatars/default.png';
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
 const priceOfTypes = {
   flat: 1000,
@@ -73,19 +73,39 @@ const formatGuests = (guestsCount) => {
   return `${guestsUnitByRule[rule]}`;
 };
 
-const onImageChange = () => {
+const onAvatarChange = () => {
   const file = fileChooserAvatar.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
     previewAvatar.innerHTML = '';
+    previewAvatar.style.padding = '0';
+    previewAvatar.style.width = '200px';
     const image = document.createElement('img');
     image.src = URL.createObjectURL(file);
     image.style.maxWidth = '100%';
-    image.style.width = '40';
-    image.style.height = '40';
+    image.style.width = '100%';
+    image.style.height = 'auto';
     image.style.padding = '0';
+    image.style.borderRadius = '5px';
     previewAvatar.append(image);
+  }
+};
+
+const onImageChange = () => {
+  const file = fileChooserImages.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    previewImage.innerHTML = '';
+    const image = document.createElement('img');
+    image.src = URL.createObjectURL(file);
+    image.style.maxWidth = '100%';
+    image.style.width = '100%';
+    image.style.height = 'auto';
+    image.style.padding = '0';
+    image.style.borderRadius = '5px';
+    previewImage.append(image);
   }
 };
 
@@ -153,7 +173,9 @@ price.addEventListener('change', (evt) => {
   price.placeholder = `${priceOfTypes[type.value]}`;
 });
 
-fileChooserAvatar.addEventListener('change', onImageChange);
+fileChooserAvatar.addEventListener('change', onAvatarChange);
+
+fileChooserImages.addEventListener('change', onImageChange);
 
 const setAddress = ({lat, lng}) => {
   lat = lat.toFixed(5);
@@ -193,7 +215,13 @@ const resetForm = () => {
   pristine.reset();
   slider.noUiSlider.set(price.value);
   previewImage.innerHTML = '';
-  previewAvatar.src = DEFAULT_AVATAR;
+  previewAvatar.innerHTML = '';
+  previewAvatar.style.padding = '0 15px';
+  previewAvatar.style.width = '70px';
+  const image = document.createElement('img');
+  image.src = DEFAULT_AVATAR;
+  image.style.width = '40px';
+  previewAvatar.append(image);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
