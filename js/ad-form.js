@@ -1,25 +1,5 @@
 import {updateSlider} from './slider.js';
 
-const adForm = document.querySelector('.ad-form');
-const fieldsets = adForm.querySelectorAll('fieldset');
-const slider = adForm.querySelector('.ad-form__slider');
-const submitButton = adForm.querySelector('.ad-form__submit');
-const timein = adForm.querySelector('#timein');
-const timeout = adForm.querySelector('#timeout');
-const roomNumber = adForm.querySelector('#room_number');
-const capacity = adForm.querySelector('#capacity');
-const type = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
-const address = adForm.querySelector('#address');
-const resetButton = adForm.querySelector('.ad-form__reset');
-const body = document.querySelector('body');
-const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
-const fileChooserAvatar = adForm.querySelector('#avatar');
-const previewAvatar = adForm.querySelector('.ad-form-header__preview');
-const fileChooserImages = adForm.querySelector('#images');
-const previewImage = adForm.querySelector('.ad-form__photo');
-
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
@@ -45,19 +25,11 @@ const guestsToRooms = {
   3: ['3'],
 };
 
-const pluralRuleSelector = new Intl.PluralRules('ru');
-
 const roomsUnitByRule = {
   one: 'комната',
   few: 'комнаты',
   many: 'комнат',
   other: 'комнат'
-};
-
-const formatRooms = (roomsCount) => {
-  const rule = pluralRuleSelector.select(roomsCount);
-
-  return `${roomsUnitByRule[rule]}`;
 };
 
 const guestsUnitByRule = {
@@ -67,6 +39,34 @@ const guestsUnitByRule = {
   other: 'гостей'
 };
 
+const adFormElement = document.querySelector('.ad-form');
+const fieldsetElements = adFormElement.querySelectorAll('fieldset');
+const sliderElement = adFormElement.querySelector('.ad-form__slider');
+const submitButtonElement = adFormElement.querySelector('.ad-form__submit');
+const timeinElement = adFormElement.querySelector('#timein');
+const timeoutElement = adFormElement.querySelector('#timeout');
+const roomNumberElement = adFormElement.querySelector('#room_number');
+const capacityElement = adFormElement.querySelector('#capacity');
+const typeElement = adFormElement.querySelector('#type');
+const priceElement = adFormElement.querySelector('#price');
+const addressElement = adFormElement.querySelector('#address');
+const resetButtonElement = adFormElement.querySelector('.ad-form__reset');
+const bodyElement = document.querySelector('body');
+const successMessageTemplateElement = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplateElement = document.querySelector('#error').content.querySelector('.error');
+const fileChooserAvatarElement = adFormElement.querySelector('#avatar');
+const previewAvatarElement = adFormElement.querySelector('.ad-form-header__preview');
+const fileChooserImagesElement = adFormElement.querySelector('#images');
+const previewImageElement = adFormElement.querySelector('.ad-form__photo');
+
+const pluralRuleSelector = new Intl.PluralRules('ru');
+
+const formatRooms = (roomsCount) => {
+  const rule = pluralRuleSelector.select(roomsCount);
+
+  return `${roomsUnitByRule[rule]}`;
+};
+
 const formatGuests = (guestsCount) => {
   const rule = pluralRuleSelector.select(guestsCount);
 
@@ -74,43 +74,43 @@ const formatGuests = (guestsCount) => {
 };
 
 const onAvatarChange = () => {
-  const file = fileChooserAvatar.files[0];
+  const file = fileChooserAvatarElement.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
-    previewAvatar.innerHTML = '';
-    previewAvatar.style.padding = '0';
-    previewAvatar.style.width = '200px';
-    const image = document.createElement('img');
-    image.src = URL.createObjectURL(file);
-    image.style.maxWidth = '100%';
-    image.style.width = '100%';
-    image.style.height = 'auto';
-    image.style.padding = '0';
-    image.style.borderRadius = '5px';
-    previewAvatar.append(image);
+    previewAvatarElement.innerHTML = '';
+    previewAvatarElement.style.padding = '0';
+    previewAvatarElement.style.width = '180px';
+    const imageElement = document.createElement('img');
+    imageElement.src = URL.createObjectURL(file);
+    imageElement.style.maxWidth = '100%';
+    imageElement.style.width = '100%';
+    imageElement.style.height = 'auto';
+    imageElement.style.padding = '0';
+    imageElement.style.borderRadius = '5px';
+    previewAvatarElement.append(imageElement);
   }
 };
 
 const onImageChange = () => {
-  const file = fileChooserImages.files[0];
+  const file = fileChooserImagesElement.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
-    previewImage.innerHTML = '';
-    const image = document.createElement('img');
-    image.src = URL.createObjectURL(file);
-    image.style.maxWidth = '100%';
-    image.style.width = '100%';
-    image.style.height = 'auto';
-    image.style.padding = '0';
-    image.style.borderRadius = '5px';
-    previewImage.append(image);
+    previewImageElement.innerHTML = '';
+    const imageElement = document.createElement('img');
+    imageElement.src = URL.createObjectURL(file);
+    imageElement.style.maxWidth = '100%';
+    imageElement.style.width = '100%';
+    imageElement.style.height = 'auto';
+    imageElement.style.padding = '0';
+    imageElement.style.borderRadius = '5px';
+    previewImageElement.append(imageElement);
   }
 };
 
 const pristine = new Pristine(
-  adForm,
+  adFormElement,
   {
     classTo: 'ad-form__element',
     errorClass: 'ad-form__element--invalid',
@@ -119,109 +119,109 @@ const pristine = new Pristine(
   true
 );
 
-const validateCapacity = () => roomsToGuests[roomNumber.value].includes(capacity.value);
-const validateRoomNumber = () => guestsToRooms[capacity.value].includes(roomNumber.value);
+const validateCapacity = () => roomsToGuests[roomNumberElement.value].includes(capacityElement.value);
+const validateRoomNumber = () => guestsToRooms[capacityElement.value].includes(roomNumberElement.value);
 
 const getCapacityErorMessage = () => `Указанное количество комнат вмещает
-  ${roomsToGuests[roomNumber.value].join(' или ')}
-  ${formatGuests(roomNumber.value)}`;
+  ${roomsToGuests[roomNumberElement.value].join(' или ')}
+  ${formatGuests(roomNumberElement.value)}`;
 
 const getRoomNumberErorMessage = () => `Для указанного количества гостей требуется
-  ${guestsToRooms[capacity.value].join(' или ')}
-  ${formatRooms(capacity.value)}`;
+  ${guestsToRooms[capacityElement.value].join(' или ')}
+  ${formatRooms(capacityElement.value)}`;
 
-const validatePrice = () => priceOfTypes[type.value] <= price.value;
+const validatePrice = () => priceOfTypes[typeElement.value] <= priceElement.value;
 
 pristine.addValidator(
-  capacity,
+  capacityElement,
   validateCapacity,
   getCapacityErorMessage
 );
 
 pristine.addValidator(
-  roomNumber,
+  roomNumberElement,
   validateRoomNumber,
   getRoomNumberErorMessage
 );
 
 pristine.addValidator(
-  price,
+  priceElement,
   validatePrice,
   'Цена меньше минимальной'
 );
 
-timein.addEventListener('change', (evt) => {
+timeinElement.addEventListener('change', (evt) => {
   evt.preventDefault();
-  timeout.value = timein.value;
+  timeoutElement.value = timeinElement.value;
 });
 
-timeout.addEventListener('change', (evt) => {
+timeoutElement.addEventListener('change', (evt) => {
   evt.preventDefault();
-  timein.value = timeout.value;
+  timeinElement.value = timeoutElement.value;
 });
 
-type.addEventListener('change', (evt) => {
+typeElement.addEventListener('change', (evt) => {
   evt.preventDefault();
-  price.min = `${priceOfTypes[type.value]}`;
-  price.placeholder = `${priceOfTypes[type.value]}`;
-  updateSlider(price);
+  priceElement.min = `${priceOfTypes[typeElement.value]}`;
+  priceElement.placeholder = `${priceOfTypes[typeElement.value]}`;
+  updateSlider(priceElement);
 });
 
-price.addEventListener('change', (evt) => {
+priceElement.addEventListener('change', (evt) => {
   evt.preventDefault();
-  price.min = `${priceOfTypes[type.value]}`;
-  price.placeholder = `${priceOfTypes[type.value]}`;
+  priceElement.min = `${priceOfTypes[typeElement.value]}`;
+  priceElement.placeholder = `${priceOfTypes[typeElement.value]}`;
 });
 
-fileChooserAvatar.addEventListener('change', onAvatarChange);
+fileChooserAvatarElement.addEventListener('change', onAvatarChange);
 
-fileChooserImages.addEventListener('change', onImageChange);
+fileChooserImagesElement.addEventListener('change', onImageChange);
 
 const setAddress = ({lat, lng}) => {
   lat = lat.toFixed(5);
   lng = lng.toFixed(5);
-  address.value = `${lat}, ${lng}`;
-  address.placeholder = `${lat}, ${lng}`;
+  addressElement.value = `${lat}, ${lng}`;
+  addressElement.placeholder = `${lat}, ${lng}`;
 };
 
 const getAdFormDisabled = () => {
-  adForm.classList.add('ad-form--disabled');
-  slider.classList.add('ad-form__slider--disabled');
-  fieldsets.forEach((fieldset) => {
+  adFormElement.classList.add('ad-form--disabled');
+  sliderElement.classList.add('ad-form__slider--disabled');
+  fieldsetElements.forEach((fieldset) => {
     fieldset.disabled = true;
   });
 };
 
 const getAdFormActive = () => {
-  adForm.classList.remove('ad-form--disabled');
-  slider.classList.remove('ad-form__slider--disabled');
-  fieldsets.forEach((fieldset) => {
+  adFormElement.classList.remove('ad-form--disabled');
+  sliderElement.classList.remove('ad-form__slider--disabled');
+  fieldsetElements.forEach((fieldset) => {
     fieldset.disabled = false;
   });
 };
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Сохраняю...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Сохраняю...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Сохранить';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Сохранить';
 };
 
 const resetForm = () => {
-  adForm.reset();
+  adFormElement.reset();
   pristine.reset();
-  slider.noUiSlider.set(price.value);
-  previewImage.innerHTML = '';
-  previewAvatar.innerHTML = '';
-  previewAvatar.style.padding = '0 15px';
-  previewAvatar.style.width = '70px';
-  const image = document.createElement('img');
-  image.src = DEFAULT_AVATAR;
-  image.style.width = '40px';
-  previewAvatar.append(image);
+  sliderElement.noUiSlider.set(priceElement.value);
+  previewImageElement.innerHTML = '';
+  previewAvatarElement.innerHTML = '';
+  previewAvatarElement.style.padding = '0 15px';
+  previewAvatarElement.style.width = '70px';
+  const imageElement = document.createElement('img');
+  imageElement.src = DEFAULT_AVATAR;
+  imageElement.style.width = '40px';
+  previewAvatarElement.append(imageElement);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -247,28 +247,28 @@ function hideMessage() {
   messageElement.remove();
   document.removeEventListener('keydown', onMessageEscKeydown);
   document.removeEventListener('click', onOverlayClick);
-  body.style.overflow = 'auto';
+  bodyElement.style.overflow = 'auto';
 }
 
 const showSuccessMessage = () => {
-  const successElement = successMessageTemplate.cloneNode(true);
+  const successElement = successMessageTemplateElement.cloneNode(true);
   document.addEventListener('keydown', onMessageEscKeydown);
   document.addEventListener('click', onOverlayClick);
-  body.append(successElement);
-  body.style.overflow = 'hidden';
+  bodyElement.append(successElement);
+  bodyElement.style.overflow = 'hidden';
 };
 
 const showErrorMessage = () => {
-  const errorElement = errorMessageTemplate.cloneNode(true);
+  const errorElement = errorMessageTemplateElement.cloneNode(true);
   document.addEventListener('keydown', onMessageEscKeydown);
   document.addEventListener('click', onOverlayClick);
   errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
-  body.append(errorElement);
-  body.style.overflow = 'hidden';
+  bodyElement.append(errorElement);
+  bodyElement.style.overflow = 'hidden';
 };
 
 const setOnFormSubmit = (cb) => {
-  adForm.addEventListener('submit', async (evt) => {
+  adFormElement.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
 
@@ -281,7 +281,7 @@ const setOnFormSubmit = (cb) => {
 };
 
 const onResetAdForm = (reset) => {
-  resetButton.addEventListener('click', (evt) => {
+  resetButtonElement.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetForm();
     reset();

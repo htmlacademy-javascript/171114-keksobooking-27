@@ -1,8 +1,8 @@
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-
 const MIN = 1000;
 const MAX = 100000;
+
+const sliderElement = document.querySelector('.ad-form__slider');
+const valueElement = document.querySelector('#price');
 
 const createSlider = () => {
   noUiSlider.create(sliderElement, {
@@ -37,7 +37,7 @@ const updateSlider = (element) => {
         min: parseInt(element.min, 10),
         max: MAX
       },
-      start: parseInt(element.min, 10),
+      start: parseInt(element.value, 10),
     });
   }
 };
