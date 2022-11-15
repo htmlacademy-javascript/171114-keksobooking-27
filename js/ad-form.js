@@ -1,25 +1,5 @@
 import {updateSlider} from './slider.js';
 
-const adFormElement = document.querySelector('.ad-form');
-const fieldsetElements = adFormElement.querySelectorAll('fieldset');
-const sliderElement = adFormElement.querySelector('.ad-form__slider');
-const submitButtonElement = adFormElement.querySelector('.ad-form__submit');
-const timeinElement = adFormElement.querySelector('#timein');
-const timeoutElement = adFormElement.querySelector('#timeout');
-const roomNumberElement = adFormElement.querySelector('#room_number');
-const capacityElement = adFormElement.querySelector('#capacity');
-const typeElement = adFormElement.querySelector('#type');
-const priceElement = adFormElement.querySelector('#price');
-const addressElement = adFormElement.querySelector('#address');
-const resetButtonElement = adFormElement.querySelector('.ad-form__reset');
-const bodyElement = document.querySelector('body');
-const successMessageTemplateElement = document.querySelector('#success').content.querySelector('.success');
-const errorMessageTemplateElement = document.querySelector('#error').content.querySelector('.error');
-const fileChooserAvatarElement = adFormElement.querySelector('#avatar');
-const previewAvatarElement = adFormElement.querySelector('.ad-form-header__preview');
-const fileChooserImagesElement = adFormElement.querySelector('#images');
-const previewImageElement = adFormElement.querySelector('.ad-form__photo');
-
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
@@ -45,8 +25,6 @@ const guestsToRooms = {
   3: ['3'],
 };
 
-const pluralRuleSelector = new Intl.PluralRules('ru');
-
 const roomsUnitByRule = {
   one: 'комната',
   few: 'комнаты',
@@ -60,6 +38,28 @@ const guestsUnitByRule = {
   many: 'гостей',
   other: 'гостей'
 };
+
+const adFormElement = document.querySelector('.ad-form');
+const fieldsetElements = adFormElement.querySelectorAll('fieldset');
+const sliderElement = adFormElement.querySelector('.ad-form__slider');
+const submitButtonElement = adFormElement.querySelector('.ad-form__submit');
+const timeinElement = adFormElement.querySelector('#timein');
+const timeoutElement = adFormElement.querySelector('#timeout');
+const roomNumberElement = adFormElement.querySelector('#room_number');
+const capacityElement = adFormElement.querySelector('#capacity');
+const typeElement = adFormElement.querySelector('#type');
+const priceElement = adFormElement.querySelector('#price');
+const addressElement = adFormElement.querySelector('#address');
+const resetButtonElement = adFormElement.querySelector('.ad-form__reset');
+const bodyElement = document.querySelector('body');
+const successMessageTemplateElement = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplateElement = document.querySelector('#error').content.querySelector('.error');
+const fileChooserAvatarElement = adFormElement.querySelector('#avatar');
+const previewAvatarElement = adFormElement.querySelector('.ad-form-header__preview');
+const fileChooserImagesElement = adFormElement.querySelector('#images');
+const previewImageElement = adFormElement.querySelector('.ad-form__photo');
+
+const pluralRuleSelector = new Intl.PluralRules('ru');
 
 const formatRooms = (roomsCount) => {
   const rule = pluralRuleSelector.select(roomsCount);

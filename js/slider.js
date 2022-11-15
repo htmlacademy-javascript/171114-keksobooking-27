@@ -37,7 +37,7 @@ const updateSlider = (element) => {
         min: parseInt(element.min, 10),
         max: MAX
       },
-      start: parseInt(element.min, 10),
+      start: parseInt(element.value, 10),
     });
   }
 };
