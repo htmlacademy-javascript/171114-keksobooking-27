@@ -1,6 +1,11 @@
+const Link = {
+  GETTING_DATA: 'https://27.javascript.pages.academy/keksobooking/data',
+  SENDING_DATA: 'https://27.javascript.pages.academy/keksobooking',
+};
+
 const getData = async (onSuccess, onFail) => {
   try {
-    const response = await fetch('https://27.javascript.pages.academy/keksobooking/data');
+    const response = await fetch(Link.GETTING_DATA);
     if (!response.ok) {
       throw new Error ('Не удалось загрузить объявления');
     }
@@ -15,7 +20,7 @@ const getData = async (onSuccess, onFail) => {
 const sendData = async (onSuccess, onFail, body) => {
   try {
     const response = await fetch(
-      'https://27.javascript.pages.academy/keksobooking',
+      Link.SENDING_DATA,
       {
         method: 'POST',
         body,
